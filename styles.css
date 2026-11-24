@@ -1,0 +1,122 @@
+/* YouTube Study Hub — Modal & Course Progress Styles */
+
+.ytsh-modal-desc {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  margin-bottom: var(--size-4-3);
+}
+
+.ytsh-detect-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-s);
+  font-size: var(--font-ui-smaller);
+  font-weight: var(--font-medium);
+  margin-bottom: var(--size-4-3);
+  background: var(--background-secondary);
+  color: var(--text-muted);
+}
+
+.ytsh-detect-badge.is-video {
+  background: rgba(var(--color-blue-rgb, 8, 109, 221), 0.16);
+  color: rgb(var(--color-blue-rgb, 8, 109, 221));
+}
+
+.ytsh-detect-badge.is-playlist {
+  background: rgba(var(--color-purple-rgb, 120, 82, 238), 0.16);
+  color: rgb(var(--color-purple-rgb, 120, 82, 238));
+}
+
+.ytsh-detect-badge.is-error {
+  background: rgba(var(--color-red-rgb, 233, 49, 71), 0.16);
+  color: rgb(var(--color-red-rgb, 233, 49, 71));
+}
+
+.ytsh-playlist-options {
+  margin-top: var(--size-4-2);
+  padding-top: var(--size-4-2);
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.ytsh-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-4);
+}
+
+/* Course index progress bar */
+.ytsh-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  margin: var(--size-4-2) 0 var(--size-4-3);
+}
+
+.ytsh-progress-bar {
+  flex: 1;
+  height: 10px;
+  accent-color: var(--interactive-accent);
+  border-radius: var(--radius-s);
+}
+
+.ytsh-progress-label {
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.ytsh-settings-intro {
+  margin-bottom: var(--size-4-4);
+  padding: var(--size-4-2) var(--size-4-3);
+  border-radius: var(--radius-m);
+  background: var(--background-secondary);
+}
+
+/* Theme presets */
+body.ytsh-theme-crimson {
+  --ytsh-accent: #ff3b63;
+  --ytsh-accent-soft: rgba(255, 59, 99, 0.16);
+}
+
+body.ytsh-theme-violet {
+  --ytsh-accent: #8b5cf6;
+  --ytsh-accent-soft: rgba(139, 92, 246, 0.18);
+}
+
+body.ytsh-theme-emerald {
+  --ytsh-accent: #10b981;
+  --ytsh-accent-soft: rgba(16, 185, 129, 0.16);
+}
+
+body.ytsh-theme-crimson .ytsh-progress-bar,
+body.ytsh-theme-violet .ytsh-progress-bar,
+body.ytsh-theme-emerald .ytsh-progress-bar {
+  accent-color: var(--ytsh-accent);
+}
+
+body.ytsh-theme-crimson .ytsh-progress-label,
+body.ytsh-theme-violet .ytsh-progress-label,
+body.ytsh-theme-emerald .ytsh-progress-label {
+  color: var(--ytsh-accent);
+  font-weight: var(--font-semibold);
+}
+
+body.ytsh-theme-crimson .ytsh-detect-badge.is-video,
+body.ytsh-theme-crimson .ytsh-detect-badge.is-playlist,
+body.ytsh-theme-violet .ytsh-detect-badge.is-video,
+body.ytsh-theme-violet .ytsh-detect-badge.is-playlist,
+body.ytsh-theme-emerald .ytsh-detect-badge.is-video,
+body.ytsh-theme-emerald .ytsh-detect-badge.is-playlist {
+  background: var(--ytsh-accent-soft);
+  color: var(--ytsh-accent);
+}
+
+body.ytsh-theme-crimson .ytsh-modal-actions .mod-cta,
+body.ytsh-theme-violet .ytsh-modal-actions .mod-cta,
+body.ytsh-theme-emerald .ytsh-modal-actions .mod-cta {
+  background-color: var(--ytsh-accent);
+  color: #ffffff;
+}

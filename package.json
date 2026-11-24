@@ -1,0 +1,28 @@
+{
+  "name": "obsidian-youtube-study-hub",
+  "version": "1.0.0",
+  "description": "Turn YouTube videos and playlists into structured study courses and chapter-based notes inside Obsidian.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "test": "node tests/run.mjs"
+  },
+  "keywords": [
+    "obsidian",
+    "obsidian-plugin",
+    "youtube",
+    "study",
+    "chapters",
+    "playlist"
+  ],
+  "author": "David (chi-li-peppers)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.25.0",
+    "obsidian": "latest",
+    "typescript": "^5.8.0"
+  }
+}

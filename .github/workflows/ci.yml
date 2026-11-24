@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Typecheck & build
+        run: npm run build
+      - name: Manifest check
+        run: |
+          jq -e '.id and .name and .version and .minAppVersion and .description and .author' manifest.json
+          V=$(jq -r .version manifest.json)
+          jq -e --arg v "$V" 'has($v)' versions.json
+      - name: Unit tests
+        run: npm test

@@ -1,0 +1,53 @@
+name: Release
+on:
+  push:
+    branches: [main]
+    paths: ["manifest.json", "src/**", "styles.css", "package.json", ".github/workflows/release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install, build & test
+        run: |
+          npm install
+          npm run build
+          jq -e '.id and .name and .version and .minAppVersion and .description and .author' manifest.json
+          V=$(jq -r .version manifest.json)
+          jq -e --arg v "$V" 'has($v)' versions.json
+          npm test
+      - name: Check if release already exists
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(jq -r .version manifest.json)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Attest release assets
+        if: steps.check.outputs.exists == 'false'
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: |
+            main.js
+            manifest.json
+            styles.css
+      - name: Publish new release
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+          gh release create "$VERSION" main.js manifest.json styles.css --title "$VERSION" --target "$GITHUB_SHA" --generate-notes
