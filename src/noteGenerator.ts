@@ -15,7 +15,7 @@ const PROGRESS_END = "<!-- ytsh-progress:end -->";
  */
 export function sanitizeFileName(raw: string, fallback = "Untitled"): string {
   const cleaned = String(raw || "")
-    .replace(/[\\/:*?"<>|#^\[\]]+/g, " ")
+    .replace(/[\\/:*?"<>|#^[\]]+/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .replace(/^\.+|\.+$/g, "")

@@ -57,7 +57,7 @@ export class ImportModal extends Modal {
         text.inputEl.addEventListener("keydown", (evt) => {
           if (evt.key === "Enter") {
             evt.preventDefault();
-            this.handleSubmit();
+            void this.handleSubmit();
           }
         });
         window.setTimeout(() => text.inputEl.focus(), 20);
@@ -83,7 +83,9 @@ export class ImportModal extends Modal {
     cancelBtn.addEventListener("click", () => this.close());
 
     this.submitBtn = actions.createEl("button", { text: "Import", cls: "mod-cta" });
-    this.submitBtn.addEventListener("click", () => this.handleSubmit());
+    this.submitBtn.addEventListener("click", () => {
+      void this.handleSubmit();
+    });
 
     this.updateDetection();
   }

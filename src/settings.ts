@@ -1,6 +1,6 @@
-import { App, PluginSettingTab, Setting } from "obsidian";
+import { App, PluginSettingTab, Setting, SettingDefinitionItem } from "obsidian";
 import type YouTubeStudyHubPlugin from "./main";
-import { ChapterHeadingLevel, ThemePreset } from "./types";
+import { ThemePreset } from "./types";
 
 export class YouTubeStudyHubSettingTab extends PluginSettingTab {
   plugin: YouTubeStudyHubPlugin;
@@ -8,6 +8,154 @@ export class YouTubeStudyHubSettingTab extends PluginSettingTab {
   constructor(app: App, plugin: YouTubeStudyHubPlugin) {
     super(app, plugin);
     this.plugin = plugin;
+  }
+
+  getSettingDefinitions(): SettingDefinitionItem[] {
+    return [
+      {
+        type: "group",
+        heading: "Folders",
+        items: [
+          {
+            name: "Default folder for videos",
+            desc: "Where single imported video notes are created.",
+            control: {
+              type: "text",
+              key: "videosFolder",
+              placeholder: "YouTube/Videos",
+              defaultValue: "YouTube/Videos",
+            },
+          },
+          {
+            name: "Default folder for courses",
+            desc: "Where playlist course folders are created.",
+            control: {
+              type: "text",
+              key: "coursesFolder",
+              placeholder: "YouTube/Courses",
+              defaultValue: "YouTube/Courses",
+            },
+          },
+        ],
+      },
+      {
+        type: "group",
+        heading: "Note formatting",
+        items: [
+          {
+            name: "Include video embed",
+            desc: "On: embeds the YouTube player at the top of the note. Off: inserts a clickable thumbnail instead.",
+            control: {
+              type: "toggle",
+              key: "includeVideoEmbed",
+              defaultValue: true,
+            },
+          },
+          {
+            name: "Heading level for chapters",
+            desc: "Markdown heading level used for each imported chapter.",
+            control: {
+              type: "dropdown",
+              key: "chapterHeadingLevel",
+              defaultValue: "##",
+              options: {
+                "##": "Heading 2 (##)",
+                "###": "Heading 3 (###)",
+              },
+            },
+          },
+          {
+            name: "Auto-open created note",
+            desc: "Open the newly created video note or course index automatically after import.",
+            control: {
+              type: "toggle",
+              key: "autoOpenNote",
+              defaultValue: true,
+            },
+          },
+        ],
+      },
+      {
+        type: "group",
+        heading: "Appearance",
+        items: [
+          {
+            name: "Theme style",
+            desc: "Color theme for course progress bars, badges, and import controls.",
+            control: {
+              type: "dropdown",
+              key: "themePreset",
+              defaultValue: "obsidian",
+              options: {
+                obsidian: "Obsidian accent (default)",
+                crimson: "YouTube Crimson",
+                violet: "Electric Violet",
+                emerald: "Emerald Study",
+              },
+            },
+          },
+        ],
+      },
+      {
+        type: "group",
+        heading: "Courses & playlists",
+        items: [
+          {
+            name: "Auto-update course progress bar",
+            desc: "Automatically recalculate the progress bar and status when you check off lessons in _Course Index.md.",
+            control: {
+              type: "toggle",
+              key: "autoUpdateCourseProgress",
+              defaultValue: true,
+            },
+          },
+          {
+            name: "Delay between playlist chapter requests (ms)",
+            desc: "Pause between video requests when fetching chapters for an entire playlist, to avoid YouTube rate limits.",
+            control: {
+              type: "number",
+              key: "playlistRequestDelayMs",
+              placeholder: "650",
+              defaultValue: 650,
+            },
+          },
+        ],
+      },
+    ];
+  }
+
+  async setControlValue(key: string, value: unknown): Promise<void> {
+    const s = this.plugin.settings;
+    switch (key) {
+      case "videosFolder":
+        s.videosFolder = String(value || "").trim() || "YouTube/Videos";
+        break;
+      case "coursesFolder":
+        s.coursesFolder = String(value || "").trim() || "YouTube/Courses";
+        break;
+      case "includeVideoEmbed":
+        s.includeVideoEmbed = Boolean(value);
+        break;
+      case "chapterHeadingLevel":
+        s.chapterHeadingLevel = value === "###" ? "###" : "##";
+        break;
+      case "autoOpenNote":
+        s.autoOpenNote = Boolean(value);
+        break;
+      case "themePreset":
+        s.themePreset =
+          value === "crimson" || value === "violet" || value === "emerald" ? value : "obsidian";
+        break;
+      case "autoUpdateCourseProgress":
+        s.autoUpdateCourseProgress = Boolean(value);
+        break;
+      case "playlistRequestDelayMs":
+        s.playlistRequestDelayMs = Math.max(150, Math.min(5000, Math.floor(Number(value) || 650)));
+        break;
+      default:
+        return;
+    }
+    await this.plugin.saveSettings();
   }
 
   display(): void {
@@ -77,7 +225,7 @@ export class YouTubeStudyHubSettingTab extends PluginSettingTab {
           .addOption("###", "Heading 3 (###)")
           .setValue(s.chapterHeadingLevel)
           .onChange(async (val) => {
-            s.chapterHeadingLevel = (val === "###" ? "###" : "##") as ChapterHeadingLevel;
+            s.chapterHeadingLevel = val === "###" ? "###" : "##";
             await this.plugin.saveSettings();
           })
       );

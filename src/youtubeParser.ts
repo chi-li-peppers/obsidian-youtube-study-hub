@@ -235,8 +235,8 @@ export function parseChaptersFromDescription(description: string): YouTubeChapte
   const lines = description.split(/\r?\n/);
   const found: YouTubeChapter[] = [];
 
-  const leadingRe = /^\s*(?:[-*•]\s*)?[\[(]?(\d{1,2}:\d{2}(?::\d{2})?)[\])]?\s*(?:[-–—:|]\s*)?(.+?)\s*$/;
-  const trailingRe = /^\s*(?:[-*•]\s*)?(.+?)\s*(?:[-–—:|]\s*)[\[(]?(\d{1,2}:\d{2}(?::\d{2})?)[\])]?\s*$/;
+  const leadingRe = /^\s*(?:[-*•]\s*)?[[(]?(\d{1,2}:\d{2}(?::\d{2})?)[\])]?\s*(?:[-–—:|]\s*)?(.+?)\s*$/;
+  const trailingRe = /^\s*(?:[-*•]\s*)?(.+?)\s*(?:[-–—:|]\s*)[[(]?(\d{1,2}:\d{2}(?::\d{2})?)[\])]?\s*$/;
 
   for (const line of lines) {
     if (!line.trim()) continue;
@@ -372,7 +372,7 @@ export function parsePlaylistHtml(playlistId: string, html: string): YouTubePlay
   if (!author) {
     const metadataParts = findObjectsByKey(initialData, "metadataParts");
     for (const mp of metadataParts) {
-      const candidate = readText((mp as Record<string, unknown>).text).replace(/^by\s+/i, "").trim();
+      const candidate = readText(mp.text).replace(/^by\s+/i, "").trim();
       if (candidate) {
         author = candidate;
         break;

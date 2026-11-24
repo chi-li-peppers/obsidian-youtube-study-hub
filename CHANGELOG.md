@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-11-25
+
+### Changed
+
+- Added declarative `getSettingDefinitions()` support for Obsidian 1.13+ settings search
+- Replaced `builtin-modules` devDependency with Node's native `node:module` `builtinModules`
+- Cleaned up floating promises, regex escapes, and strict TypeScript typing
+
 ## [1.0.0] - 2026-11-24
 
 ### Added

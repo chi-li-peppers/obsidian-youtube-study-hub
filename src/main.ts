@@ -61,7 +61,7 @@ export default class YouTubeStudyHubPlugin extends Plugin {
         const vid = this.getVideoIdFromFile(file);
         if (!vid) return false;
         if (!checking) {
-          this.fetchChaptersForActiveNote(file, vid);
+          void this.fetchChaptersForActiveNote(file, vid);
         }
         return true;
       },
@@ -112,7 +112,8 @@ export default class YouTubeStudyHubPlugin extends Plugin {
   }
 
   async loadSettings(): Promise<void> {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const saved = (await this.loadData()) as Partial<YouTubeStudyHubSettings> | null;
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, saved ?? {});
   }
 
   async saveSettings(): Promise<void> {
