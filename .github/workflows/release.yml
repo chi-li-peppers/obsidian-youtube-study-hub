@@ -16,9 +16,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: oven-sh/setup-bun@v2
       - name: Install, build & test
         run: |
-          npm install
+          bun install --frozen-lockfile
           npm run build
           jq -e '.id and .name and .version and .minAppVersion and .description and .author' manifest.json
           V=$(jq -r .version manifest.json)
