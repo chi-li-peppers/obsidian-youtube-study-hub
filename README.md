@@ -49,7 +49,7 @@ YouTube Study Hub makes requests **only** to `youtube.com` when you explicitly t
 
 ## Support
 
-If this plugin saves you time while studying from YouTube, consider supporting development on [Patreon](https://www.patreon.com/YOUR_USERNAME) or starring the repository.
+If this plugin saves you time while studying from YouTube, consider supporting development on [Patreon](https://www.patreon.com/c/chi_li_peppers) or starring the repository.
 
 ## License
 

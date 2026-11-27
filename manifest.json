@@ -1,11 +1,11 @@
 {
   "id": "youtube-study-hub",
   "name": "YouTube Study Hub",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "minAppVersion": "1.4.10",
   "description": "Turn YouTube videos and playlists into structured study courses and chapter-based notes with clickable timestamps and progress tracking.",
   "author": "David",
   "authorUrl": "https://github.com/chi-li-peppers",
-  "fundingUrl": "https://www.patreon.com/YOUR_USERNAME",
+  "fundingUrl": "https://www.patreon.com/c/chi_li_peppers",
   "isDesktopOnly": false
 }
